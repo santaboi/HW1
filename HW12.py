@@ -1,7 +1,6 @@
 import matplotlib as plt
 import cv2
 import numpy as np
-import math
 #import PyQt5
 from cfg import *
 
