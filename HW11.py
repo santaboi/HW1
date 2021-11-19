@@ -1,4 +1,4 @@
-import matplotlib
+import matplotlib.pyplot as plt
 import cv2
 import numpy as np
 #import PyQt5
@@ -16,18 +16,22 @@ cv2.destroyWindow('Sun.jpg')
 
 # hw1-2
 blue, green, red = cv2.split(img1)
-cv2.imshow('B channel', blue)
-cv2.imshow('G channel', green)
-cv2.imshow('R channel', red)
+zeros = np.zeros(blue.shape[:2], dtype='uint8')
+cv2.imshow('B channel', cv2.merge([blue, zeros, zeros]))
+cv2.imshow('G channel', cv2.merge([zeros, green, zeros]))
+cv2.imshow('R channel', cv2.merge([zeros, zeros, red]))
 cv2.waitKey(0)
+
 
 # hw 1-3
 merge1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+print(merge1.shape)
 cv2.imshow('merge1', merge1)
+cv2.imshow('merge!!!!', cv2.merge([merge1, merge1, merge1]))
 
 
-'''
-kind of weird
+# kind of weird
+
 '''
 # way1
 merge2 = np.empty((img1.shape[0], img1.shape[1]))
@@ -37,10 +41,12 @@ for w in range(0, img1.shape[1]):
         merge2[h, w] = (img1[h, w, 0] + img1[h, w, 1] + img1[h, w, 2]) / 3
 # print(merge2)
 '''
-#way2
+
+# way2
 merge2 = (blue + green + red) / 3
-'''
-cv2.imshow('merge2', merge2)
+
+cv2.imwrite('merge2.jpg', cv2.merge([blue / 3, green / 3, red / 3]))
+cv2.imshow('merge2',  cv2.merge([blue / 3, green / 3, red / 3]))
 cv2.waitKey(0)
 
 
