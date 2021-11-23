@@ -43,11 +43,24 @@ cv2.waitKey(0)
 # **************************************************************************
 original_img = cv2.imread(q4_folder + 'SQUARE-01.png')
 
+'''
+h, w = original_img.shape[: 2]
+resize1 = cv2.resize(original_img, (int(h / 4), int(w / 4)))
+cv2.imshow('after shearing', shear_img)
+cv2.waitKey(0)
+'''
 h, w = original_img.shape[: 2]
 resize1 = cv2.resize(original_img, (int(h / 2), int(w / 2)))
+
+# rotational matrix
+rotate = cv2.getRotationMatrix2D((h / 4, w / 2), 10, 0.5)  # 中心點是啥???????????
+rotate1 = cv2.warpAffine(resize1, rotate, (400, 300))
 non_shear = np.float32([[50, 50], [200, 50], [50, 200]])
 after_shear = np.float32([[10, 100], [200, 50], [100, 250]])
 shearing_matrix = cv2.getAffineTransform(non_shear, after_shear)
-shear_img = cv2.warpAffine(resize1, shearing_matrix, (400, 300))
+shear_img = cv2.warpAffine(rotate1, shearing_matrix, (400, 300))
 cv2.imshow('after shearing', shear_img)
 cv2.waitKey(0)
+
+
+# 4-3 4-4 題 參數可能有點怪
