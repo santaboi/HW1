@@ -76,25 +76,38 @@ cv2.waitKey(0)
 # Sobel X
 sobFilterx = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
 sobFiltery = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]])
+
 sobelx_result = convolution(gaussian_blur(gau2, 3), sobFilterx)
-sobely_result = convolution(gaussian_blur(gau2, 3), sobFiltery)
 sobelx_result *= 255.0 / sobelx_result.max()
+
+sobely_result = convolution(gaussian_blur(gau2, 3), sobFiltery)
+sobely_result *= 255.0 / sobely_result.max()
+
+sobel_xy = np.sqrt(np.square(sobelx_result) + np.square(sobely_result))
+sobel_xy *= 255.0/sobel_xy.max()
 '''
-為啥直接show會超怪
+for rows in sobelx_result:
+    rows[:] = [round(a) for a in rows]
+# 為啥直接show會超怪???? ->看起來一個是int 一個是float
+#imwrite 完後 array 跟原來完全不同
+print('1', sobelx_result)
 cv2.imshow('after diy sobelx', sobelx_result)
 cv2.waitKey(0)
 '''
-cv2.imwrite('sobel2.jpg', sobelx_result)
+cv2.imwrite('sobelx.jpg', sobelx_result)
+sobelx_result = cv2.imread('sobelx.jpg')
+cv2.imshow('after diy sobelx', sobelx_result)
+cv2.waitKey(0)
+#print('2', sobelx_result)
 
-
-'''
-sobelmmm_result = convolution(cv2.GaussianBlur(gau2, (3, 3), 0), sobFilterx)
-cv2.imshow('after hand ', sobelmmm_result)
+cv2.imwrite('sobely.jpg', sobely_result)
+sobely_result = cv2.imread('sobely.jpg')
+cv2.imshow('after diy sobely', sobely_result)
 cv2.waitKey(0)
 
-xy_magnitude = np.sqrt(np.square(sobelx_result) + np.square(sobely_result))
-# normalize each pixel in between 0 ~ 255
-xy_magnitude *= 255/xy_magnitude.max()
-#cv2.imshow('after hand made sobel_x sobel_y', xy_magnitude)
-# cv2.waitKey(0)
-'''
+
+print("sobelxy", sobel_xy)
+cv2.imwrite('sobelxy.jpg', sobel_xy)
+sobel_xy = cv2.imread('sobelxy.jpg')
+cv2.imshow('after diy sobel_xy', sobel_xy)
+cv2.waitKey(0)
