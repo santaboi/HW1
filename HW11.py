@@ -32,22 +32,25 @@ cv2.imshow('merge!!!!', cv2.merge([merge1, merge1, merge1]))
 
 # kind of weird
 
-'''
-# way1
-merge2 = np.empty((img1.shape[0], img1.shape[1]))
-for w in range(0, img1.shape[1]):
-    for h in range(0, img1.shape[0]):
-        #merge2[h, w] = (blue[h, w] + green[h, w] + red[h, w]) / 3
-        merge2[h, w] = (img1[h, w, 0] + img1[h, w, 1] + img1[h, w, 2]) / 3
+
+new_s = img1.copy()
+row_s, col_s = img1.shape[0:2]
+for i in range(row_s):
+    for j in range(col_s):
+        new_s[i, j] = sum(img1[i, j]) / 3
+"""merge2 = np.zeros((img1.shape[0], img1.shape[1]))
+for w in range(0, img1.shape[0]):
+    for h in range(0, img1.shape[1]):
+        merge2[w, h] = sum(img1[w, h]) / 3"""
+
 # print(merge2)
-'''
 
 # way2
-merge2 = (blue + green + red) / 3
-
-cv2.imwrite('merge2.jpg', cv2.merge([blue / 3, green / 3, red / 3]))
-cv2.imshow('merge2',  cv2.merge([blue / 3, green / 3, red / 3]))
+cv2.imshow('!!!', new_s)
 cv2.waitKey(0)
+"""cv2.imwrite('./data/merge2.jpg', cv2.merge([blue / 3, green / 3, red / 3]))
+cv2.imshow('./data/merge2',  cv2.merge([blue / 3, green / 3, red / 3]))
+cv2.waitKey(0)"""
 
 
 # ***hw 1-4 (blend and trackbar)***
